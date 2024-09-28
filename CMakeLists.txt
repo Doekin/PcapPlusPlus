@@ -304,16 +304,19 @@ add_subdirectory(Packet++)
 add_subdirectory(Pcap++)
 add_subdirectory(Common++)
 
-if(PCAPPP_BUILD_EXAMPLES)
-  set(PCAPPP_BINARY_EXAMPLES_DIR ${CMAKE_BINARY_DIR}/examples_bin)
-  add_subdirectory(Examples)
-endif()
+# exclude examples and tests from packaging
+if(NOT PCAPPP_PACKAGE)
+  if(PCAPPP_BUILD_EXAMPLES)
+    set(PCAPPP_BINARY_EXAMPLES_DIR ${CMAKE_BINARY_DIR}/examples_bin)
+    add_subdirectory(Examples)
+  endif()
 
-if(PCAPPP_BUILD_TESTS
-   OR PCAPPP_BUILD_FUZZERS
-   OR PCAPPP_BUILD_EXAMPLES)
-  include(CTest)
-  add_subdirectory(Tests)
+  if(PCAPPP_BUILD_TESTS
+    OR PCAPPP_BUILD_FUZZERS
+    OR PCAPPP_BUILD_EXAMPLES)
+    include(CTest)
+    add_subdirectory(Tests)
+  endif()
 endif()
 
 if(PCAPPP_INSTALL)
